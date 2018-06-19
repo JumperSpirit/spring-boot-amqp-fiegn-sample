@@ -1,0 +1,25 @@
+rabbit:
+  image: "rabbitmq:3-management"
+  hostname: "rabbit"
+  environment:
+    RABBITMQ_DEFAULT_USER: "rabbitmq"
+    RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    RABBITMQ_DEFAULT_VHOST: "/"
+  ports:
+    - "8089:15672"
+    - "5673:5672"
+  labels:
+    NAME: "rabbitmq"
+
+fake-client-api:
+  build: ./fake-client-api
+  ports:
+    - "8088:8080"
+  links:
+    - rabbit
+
+fake-api:
+  build: ./fake-api
+  ports:
+    - "8087:8081"
+
